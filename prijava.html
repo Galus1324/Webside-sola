@@ -43,7 +43,51 @@
     <div class="content">
         <p>za prijavo izpolnite sledeči obrazec:</p>
         <div class="container"> 
-            <p>form will be here</p>
+            <div class="container_2">
+                <table>
+                    <form action="prijava.php" method="post">
+                        <tr>
+                            <td></td>
+                            <td><div class="title3">Prijava tukaj:</div></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><label for="fname">Ime:</label></td><br>
+                            <td><input type="text" id="fname" name="fname" placeholder="Janez" required></td><br><br>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td><label for="lname">Priimek:</label></td><br>
+                            <td><input type="text" id="lname" name="lname" placeholder="Novak" required></td><br><br>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td><label for="email">Email:</label></td><br>
+                            <td><input type="email" id="email" name="email" placeholder="janez.novak@gmail.com" required></td><br><br>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td><label for="options">Prijavljam se na:</label><br>
+                            <td><select id="options" name="options" required>
+                                <option value="">--Izberite možnost--</option>
+                                <option value="option1">Option 1</option>
+                                <option value="option2">Option 2</option>
+                                <option value="option3">Option 3</option>
+                            </select></td><br><br>
+                        </tr>
+                
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><input type="submit" value="oddaj"></td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+
             <div class="box-right">
                 <div class="title2">če imate težave:</div>
                 <div class="title">Če imate težave s prijavo nas lahko kontaktirate na telefonski številki ____________ ali pa nam napišete email na elektornski naslov: ______._____@gmail.com</div>
