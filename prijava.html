@@ -16,8 +16,7 @@
             margin-right: 40%;
             text-align: center;
             color: rgb(134, 186, 144);
-            font-weight: bold
-            
+            font-weight: bold;
         }
 
         div {
@@ -25,58 +24,59 @@
         }
 
         body {
-            font-family: "Rubik";font-size: 35px;
+            font-family: "Rubik"; font-size: 35px;
         }
-        
     </style>
 </head>
 
-<body
-    style="background-color: rgb(245, 243, 187);">
+<body style="background-color: rgb(245, 243, 187);">
     <div class="top-bar">
         <div class="title">Babice in Dedki</div>
         <nav>
             <a href="o_nas.html">o nas</a>
-            <a href="main_page.html">domov</a>   
+            <a href="main_page.html">domov</a>
         </nav>
     </div>
     <div class="content">
         <p>za prijavo izpolnite sledeči obrazec:</p>
         <div class="container"> 
             <div class="container_2">
-                <table>
-                    <form action="prijava.php" method="post">
+                <div id="responseMessage" style="display:none;"></div>
+                <form action="prijava.php" method="post">
+                    <table>
                         <tr>
                             <td></td>
                             <td><div class="title3">Prijava tukaj:</div></td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td><label for="fname">Ime:</label></td><br>
-                            <td><input type="text" id="fname" name="fname" placeholder="Janez" required></td><br><br>
+                            <td><label for="fname">Ime:</label></td>
+                            <td><input type="text" id="fname" name="fname" placeholder="Janez" required></td>
                         </tr>
 
                         <tr>
                             <td></td>
-                            <td><label for="lname">Priimek:</label></td><br>
-                            <td><input type="text" id="lname" name="lname" placeholder="Novak" required></td><br><br>
+                            <td><label for="lname">Priimek:</label></td>
+                            <td><input type="text" id="lname" name="lname" placeholder="Novak" required></td>
                         </tr>
 
                         <tr>
                             <td></td>
-                            <td><label for="email">Email:</label></td><br>
-                            <td><input type="email" id="email" name="email" placeholder="janez.novak@gmail.com" required></td><br><br>
+                            <td><label for="email">Email:</label></td>
+                            <td><input type="email" id="email" name="email" placeholder="janez.novak@gmail.com" required></td>
                         </tr>
 
                         <tr>
                             <td></td>
-                            <td><label for="options">Prijavljam se na:</label><br>
-                            <td><select id="options" name="options" required>
-                                <option value="">--Izberite možnost--</option>
-                                <option value="option1">Option 1</option>
-                                <option value="option2">Option 2</option>
-                                <option value="option3">Option 3</option>
-                            </select></td><br><br>
+                            <td><label for="options">Prijavljam se na:</label></td>
+                            <td>
+                                <select id="options" name="options" required>
+                                    <option value="">--Izberite možnost--</option>
+                                    <option value="option1">Option 1</option>
+                                    <option value="option2">Option 2</option>
+                                    <option value="option3">Option 3</option>
+                                </select>
+                            </td>
                         </tr>
                 
                         <tr>
@@ -84,13 +84,82 @@
                             <td></td>
                             <td><input type="submit" value="oddaj"></td>
                         </tr>
-                    </form>
-                </table>
+                    </table>
+                </form>
             </div>
-
             <div class="box-right">
                 <div class="title2">če imate težave:</div>
                 <div class="title">Če imate težave s prijavo nas lahko kontaktirate na telefonski številki ____________ ali pa nam napišete email na elektornski naslov: ______._____@gmail.com</div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            // Prevent default form submission
+            e.preventDefault();
+    
+            // Get form values
+            const fname = document.getElementById('fname').value.trim();
+            const lname = document.getElementById('lname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const options = document.getElementById('options').value;
+    
+            // Client-side validation
+            if (!fname || !lname || !email || !options) {
+                showErrorMessage('Prosimo, izpolnite vsa polja.');
+                return;
+            }
+    
+            if (!validateEmail(email)) {
+                showErrorMessage('Prosimo, vnesite veljaven email naslov.');
+                return;
+            }
+    
+            // If validation passes, proceed with AJAX form submission
+            const formData = new FormData(this); // Capture form data
+    
+            fetch('prijava.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json()) // Parse JSON response
+            .then(data => {
+                if (data.status === "success") {
+                    showSuccessMessage(data.message);
+                } else {
+                    showErrorMessage(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showErrorMessage('Prišlo je do napake pri oddaji prijave.');
+            });
+        });
+    
+        // Email validation function
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+    
+        // Display success message
+        function showSuccessMessage(message) {
+            const messageContainer = document.getElementById('responseMessage');
+            messageContainer.className = 'title3'; // Apply title3 class for styling
+            messageContainer.textContent = message;
+            messageContainer.style.color = 'green'; // Optional: set success color
+            messageContainer.style.display = 'block'; // Ensure the message is displayed
+        }
+    
+        // Display error message
+        function showErrorMessage(message) {
+            const messageContainer = document.getElementById('responseMessage');
+            messageContainer.className = 'title3'; // Apply title3 class for styling
+            messageContainer.textContent = message;
+            messageContainer.style.color = 'red'; // Optional: set error color
+            messageContainer.style.display = 'block'; // Ensure the message is displayed
+        }
+    </script>
+</body>
+</html>

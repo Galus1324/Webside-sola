@@ -1,4 +1,6 @@
 <?php
+header('Content-Type: application/json'); // Set header to return JSON
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
     $fname = $_POST['fname'];
@@ -18,8 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close the file
     fclose($file);
 
-    // Redirect back to the form with success flag
-    header("Location: prijava.html?success=true");
+    // Prepare a success response
+    echo json_encode(['status' => 'success', 'message' => 'Vaša prijava je bila uspešno poslana!']);
+    exit();
+} else {
+    // Prepare an error response
+    echo json_encode(['status' => 'error', 'message' => 'Prišlo je do napake pri oddaji prijave.']);
     exit();
 }
 ?>
